@@ -1,30 +1,37 @@
 package com.tallerspringbootmvc.clientservice.controllers;
 
-import java.util.List;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tallerspringbootmvc.clientservice.dto.ClienteDTO;
+import com.tallerspringbootmvc.clientservice.dto.ClientRequestDTO;
+import com.tallerspringbootmvc.clientservice.dto.ClientResponseDTO;
+import com.tallerspringbootmvc.clientservice.services.ClientService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/api/v1/clients")
+@RequiredArgsConstructor
 public class ClienteController {
 
-    @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll() {
+    private final ClientService clientService;
 
-        return ResponseEntity.ok().build();
+    // @GetMapping
+    // public ResponseEntity<List<ClientRequestDTO>> findAll() {
 
-    }
+    // return ResponseEntity.ok().build();
+
+    // }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> createCliente() {
+    public ResponseEntity<ClientResponseDTO> createCliente(@RequestBody ClientRequestDTO clientRequestDTO) {
 
-        return ResponseEntity.ok().build();
+        ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
     }
 
     // @DeleteMapping(value = "/{id}")
